@@ -2,10 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from .config import Config
-from .models import Base, User
-from users.auth import auth_bp
+from .users.auth import auth_bp
+from .models import db
 
-db = SQLAlchemy()
+db = db
+
 
 def create_app():
     app = Flask(__name__)
