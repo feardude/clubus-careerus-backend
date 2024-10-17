@@ -2,7 +2,7 @@ from logging.config import fileConfig
 
 import os
 from dotenv import load_dotenv
-from careeurus_app import models
+from careeurus_app.users import models
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool

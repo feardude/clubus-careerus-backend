@@ -1,12 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
 from .config import Config
 from .users.auth import auth_bp
-from .models import db
+from careeurus_app.users.models import db
 
 db = db
-
 
 def create_app():
     app = Flask(__name__)

@@ -1,21 +1,27 @@
-from flask import Blueprint, request
-from ..models import User, db
-from ..schema import UserSchema
+from flask import Blueprint, request, jsonify
+from marshmallow import ValidationError
+from typing import Dict, Any
+
+from careeurus_app.users.models import User, db
+from careeurus_app.users.schema import UserSchema
 
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/users', methods=['POST'])
-def register():
-    data = request.get_json()
-    user_schema = UserSchema()
+def register() -> tuple[Any, int]:
+    data: Dict[str, Any] = request.get_json()
+    user_schema: UserSchema = UserSchema()
 
-    user_data = user_schema.load(data)
-    user_instance = User(
+    try:
+        user_data: Dict[str, Any] = user_schema.load(data)
+    except ValidationError as err:
+        return jsonify({"errors": err.messages}), 400
+
+    user_instance: User = User(
         email=user_data['email'],
         login=user_data['login'],
-        password=user_data['password'],
-        salt=user_data['salt']
     )
+    user_instance.hash_password(user_data['password'])
 
     db.session.add(user_instance)
     db.session.commit()
