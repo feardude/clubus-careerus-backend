@@ -30,4 +30,17 @@ def register() -> tuple[Any, int]:
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
-    return "Login endpoint"
+    data: Dict[str, Any] = request.get_json()
+
+    if not data.get('email') or not data.get('password'):
+        return jsonify({"error": "Email and password are required."}), 400
+
+    user = User.query.filter_by(email=data['email']).first()
+
+    if not user:
+        return jsonify({"error": "Invalid email or password."}), 401
+
+    if not user.check_password(data['password']):
+        return jsonify({"error": "Invalid email or password."}), 401
+
+    return jsonify({"message": "Login successful."}), 200
