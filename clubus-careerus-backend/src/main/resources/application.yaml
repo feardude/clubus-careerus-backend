@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: clubus-careerus-backend
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/clubus-careerus-backend
+    username: postgres
+    password: postgres
+    hikari:
+      schema: clubus_schema
+      connection-init-sql: create schema if not exists clubus_schema
+      connection-timeout: 10000
+
+app:
+  jwt:
+    secret: "someSecretKey"
+    tokenExpiration: 1h
