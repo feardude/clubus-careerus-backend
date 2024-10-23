@@ -19,7 +19,6 @@ def validate_password(value):
     if not re.match(r"^[a-zA-Z0-9]+$", value):
         raise ValidationError("Password must contain only Latin letters and digits.")
 
-
 class UserSchema(Schema):
     email = fields.Email(required=True, validate=validate.Email())
     login = fields.String(required=True, validate=[validate.Length(min=8, max=50), validate_login])
