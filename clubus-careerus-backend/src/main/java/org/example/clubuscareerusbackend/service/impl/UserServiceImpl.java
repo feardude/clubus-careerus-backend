@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
                 .token(jwtUtils.generateJwtToken(userDetails))
                 .login(userDetails.getUsername())
                 .email(userDetails.getEmail())
+                .id(userDetails.getId())
                 .build();
     }
 

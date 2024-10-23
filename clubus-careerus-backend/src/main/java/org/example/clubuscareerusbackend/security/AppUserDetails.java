@@ -17,6 +17,10 @@ public class AppUserDetails implements UserDetails {
         return user.getEmail();
     }
 
+    public Long getId() {
+        return user.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.EMPTY_LIST;
