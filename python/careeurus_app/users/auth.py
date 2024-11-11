@@ -2,10 +2,12 @@ from flask import Blueprint, request, jsonify
 from marshmallow import ValidationError
 from typing import Dict, Any
 
-from careeurus_app.users.models import User, db
-from careeurus_app.users.schema import UserSchema
+from python.careeurus_app.users.models import User, db
+from python.careeurus_app.users.schema import UserSchema
+from python.careeurus_app.users.utils import create_jwt_token
 
 auth_bp = Blueprint('auth', __name__)
+
 
 @auth_bp.route('/users', methods=['POST'])
 def register() -> tuple[Any, int]:
@@ -28,19 +30,22 @@ def register() -> tuple[Any, int]:
 
     return user_schema.dump(user_instance), 201
 
+
 @auth_bp.route('/login', methods=['POST'])
 def login():
-    data: Dict[str, Any] = request.get_json()
+    data = request.get_json()
 
     if not data.get('email') or not data.get('password'):
         return jsonify({"error": "Email and password are required."}), 400
 
     user = User.query.filter_by(email=data['email']).first()
 
-    if not user:
+    if not user or not user.check_password(data['password']):
         return jsonify({"error": "Invalid email or password."}), 401
 
-    if not user.check_password(data['password']):
-        return jsonify({"error": "Invalid email or password."}), 401
+    token = create_jwt_token(user.id)
 
-    return jsonify({"message": "Login successful."}), 200
+    return jsonify({
+        "message": "Login successful.",
+        "token": token
+    }), 200

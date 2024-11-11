@@ -1,4 +1,4 @@
-from careeurus_app import create_app
+from python.careeurus_app import create_app
 
 app = create_app()
 

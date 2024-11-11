@@ -2,7 +2,7 @@ from flask import Flask
 
 from .config import Config
 from .users.auth import auth_bp
-from careeurus_app.users.models import db
+from python.careeurus_app.users.models import db
 
 db = db
 
