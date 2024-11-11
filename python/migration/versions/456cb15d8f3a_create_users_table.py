@@ -1,7 +1,7 @@
 """Создание новой таблицы users
 
 Revision ID: 456cb15d8f3a
-Revises: 4733bebbc1b2
+Revises: None
 Create Date: 2024-10-17 23:50:52.600584
 
 """
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = '456cb15d8f3a'
-down_revision: Union[str, None] = '4733bebbc1b2'
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
